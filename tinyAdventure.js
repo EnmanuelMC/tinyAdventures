@@ -1,6 +1,6 @@
 const textElement = document.getElementById('text')
 const optionButtonsElement = document.getElementById('option-buttons')
-const valueq = document.querySelector('#input').value
+const userName = document.querySelector('#input')
 
 let state = {}
 
@@ -10,23 +10,26 @@ function startGame() {
 }
 
 function showTextNode(textNodeIndex) {
-  console.log(valueq)
+  console.log(userName?.value)
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
-  textElement.innerText = textNode.text
+  textNode.id === 1 
+  ? textElement.innerText = ` ${userName.value}, ${textNode.text}` 
+  : textElement.innerText = textNode.text
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild)
   }
 
   textNode.options.forEach(option => {
+
+    if(option.nextText !== 1){
+      userName.value = ''
+      userName.style.display = "none"
+    }else{
+      userName.style.display = "inline-block"
+    }
+
     if (showOption(option)) {
       const button = document.createElement('button')
-      if(option.nextText !== 1){
-        // const input = document.createElement('input')
-        // input.innerText = 'write your name'
-        // const nameUser = input.value 
-        // console.log("🚀 ~ file: tinyAdventure.JS:26 ~ showTextNode ~ nameUser", nameUser)
-        // optionButtonsElement.appendChild(input)
-      }
       button.innerText = option.text
       button.classList.add('btn')
       button.addEventListener('click', () => selectOption(option))
@@ -61,7 +64,7 @@ const textNodes = [
   },
   {
     id: 1,
-    text: `${valueq}, You wake up in a strange place and you see a jar of blue goo near you.`,
+    text: 'You wake up in a strange place and you see a jar of blue goo near you.',
     options: [
       {
         text: 'Take the goo',
